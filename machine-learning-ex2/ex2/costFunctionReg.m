@@ -17,6 +17,19 @@ grad = zeros(size(theta));
 %               Compute the partial derivatives and set grad to the partial
 %               derivatives of the cost w.r.t. each parameter in theta
 
+n = size(theta);
+theta_times_x = X*theta;
+sigmoid_result = sigmoid(theta_times_x);
+
+J = sum((y.*log(sigmoid_result))+((1.-y).*log(1-sigmoid_result)));
+J= -1*J/m;
+% add the regularization part 
+J=J+ lambda*(sum(theta(2:n,1).^2))/(2*m);
+
+
+grad = X' * (sigmoid_result.-y); 
+grad = grad ./m;
+grad(2:n,1) = grad(2:n,1) + (theta(2:n,1).*lambda./m);
 
 
 
